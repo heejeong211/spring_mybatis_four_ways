@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!-- namespace를 sqlSession에서 제공하는 함수 이름 사용 (개발자가 이름 정할 수 있음)-> 두 번째 방법 -->
+<mapper namespace="board">
+	
+	<!-- id는 sqlSession에서 제공하는 함수(BService2에서 사용한 함수) 넣으면 됨. -->
+	<select id="selectBoardList" resultType="edu.bit.ex.board2.BoardVO">
+		select bId, bName, bTitle, bContent, bDate, bHit, bGroup, bStep, bIndent from mvc_board order by bGroup desc, bStep asc	
+	</select>
+	
+</mapper>

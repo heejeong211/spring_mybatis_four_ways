@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:mybatis-spring="http://mybatis.org/schema/mybatis-spring"
+	xsi:schemaLocation="http://mybatis.org/schema/mybatis-spring http://mybatis.org/schema/mybatis-spring-1.2.xsd
+		http://www.springframework.org/schema/beans https://www.springframework.org/schema/beans/spring-beans.xsd">
+	
+	<!-- Root Context: defines shared resources visible to all other web components -->
+	<!-- 커넥션 풀 -> dataSource -->
+	<bean name="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource" >
+		<property name="driverClassName" value="oracle.jdbc.driver.OracleDriver" /> <!-- property = set 함수 -->
+		<property name="url" value="jdbc:oracle:thin:@127.0.0.1:1521:XE" />
+		<property name="username" value="scott" />
+		<property name="password" value="tiger" />
+	</bean>
+	
+	<bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean"> <!-- Factory 디자인패턴 -->
+		<property name="dataSource" ref="dataSource" /> <!-- 위에 있는 데이터소스(커넥션풀)를 넣음 -->
+		<property name="mapperLocations" value="classpath:/sqlmap/*.xml" /> <!-- (/resources)sqlmap에 있는 모든 xml파일을 읽어들임 -->
+	</bean>
+	
+	<bean id="sqlSession" class="org.mybatis.spring.SqlSessionTemplate"> <!-- SqlSessionTemplate = mybatis -->
+		<constructor-arg index="0" ref="sqlSessionFactory" /> <!-- 생성자로 넣고 있다, index = 0라는 말은 배열이라는 의미 -->
+	</bean>	
+	
+	<!-- 3번과 4번 방식을 사용하기 위한 방식임  -->
+	<!-- Mapper Interface --> <!-- 인터페이스를 읽어들이라고 명령 --> <!-- 해당 인터페이스를 객체로 만들어라 -->
+	<mybatis-spring:scan base-package="edu.bit.ex.*"/> 
+		
+</beans>
